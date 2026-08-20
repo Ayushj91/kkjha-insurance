@@ -161,13 +161,13 @@ function HeroVisual() {
 
       {/* floating stat cards */}
       <div className="animate-float absolute -left-4 top-1/2 hidden -translate-y-1/2 rotate-1 xl:block">
-        <div className="glass flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl">
+        <div className="glass-dark flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 shadow-xl">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-400/20 text-brand-300">
             <Users2 className="h-4.5 w-4.5" />
           </div>
           <div>
             <div className="text-sm font-bold text-white">{site.clients}</div>
-            <div className="text-[10px] font-medium text-white/50">
+            <div className="text-[10px] font-medium text-white/70">
               Families protected
             </div>
           </div>
@@ -178,13 +178,13 @@ function HeroVisual() {
         className="animate-float-slow absolute -right-6 bottom-2 hidden -rotate-2 xl:block"
         style={{ animationDelay: "1.5s" }}
       >
-        <div className="glass flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl">
+        <div className="glass-dark flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 shadow-xl">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400/20 text-gold-400">
             <Award className="h-4.5 w-4.5" />
           </div>
           <div>
             <div className="text-sm font-bold text-white">{site.years}</div>
-            <div className="text-[10px] font-medium text-white/50">
+            <div className="text-[10px] font-medium text-white/70">
               Years trusted
             </div>
           </div>

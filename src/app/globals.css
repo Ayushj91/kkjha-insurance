@@ -108,6 +108,16 @@ html {
   -webkit-backdrop-filter: blur(20px) saturate(1.1);
 }
 
+/* dark frosted variant — for glass panels sitting over dark sections
+   (e.g. hero floating cards) where the content uses light/white text.
+   Keeping this separate from `.glass` (light, used by the navbar) avoids
+   white-on-light contrast issues. */
+.glass-dark {
+  background: rgba(15, 28, 21, 0.6);
+  backdrop-filter: blur(20px) saturate(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+}
+
 /* a strip of "washi tape" — used to pin the polaroid-style avatar card */
 .tape {
   position: absolute;
