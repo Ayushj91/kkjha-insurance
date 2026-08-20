@@ -12,7 +12,7 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: `${site.name} — ${site.business}`,
-  description: `${site.subTagline} ${site.years} years of experience, ${site.clients} clients served. Talk to ${site.shortName} on WhatsApp for life, health, motor & travel insurance and mutual funds.`,
+  description: `${site.subTagline} ${site.years} years of experience, ${site.clients} clients served. Talk to ${site.shortName} on WhatsApp (Hindi & English) for life, health, motor & travel insurance and mutual funds.`,
   keywords: [
     "insurance agent",
     "LIC advisor",
@@ -22,6 +22,12 @@ export const metadata: Metadata = {
     "Policybazaar",
     "Bajaj Capital",
     site.name,
+    "बीमा सलाहकार",
+    "बीमा एजेंट",
+    "जीवन बीमा",
+    "स्वास्थ्य बीमा",
+    "म्यूचुअल फंड सलाहकार",
+    "एलआईसी एजेंट",
   ],
   openGraph: {
     title: `${site.name} — ${site.business}`,

@@ -1,5 +1,5 @@
 import { History, LifeBuoy, MessageCircle, Users2, type LucideIcon } from "lucide-react";
-import { whyUs } from "@/lib/site";
+import { hi, whyUs } from "@/lib/site";
 
 const iconMap: Record<string, LucideIcon> = {
   history: History,
@@ -22,6 +22,9 @@ export default function WhyUs() {
           <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             Advice that actually has your back
           </h2>
+          <p lang="hi" className="mt-2 text-sm font-medium text-brand-600">
+            {hi.whyUsEyebrow}
+          </p>
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2">

@@ -11,7 +11,7 @@ import {
   TrendingUp,
   Users2,
 } from "lucide-react";
-import { site, waLink } from "@/lib/site";
+import { hi, site, waLink } from "@/lib/site";
 
 export default function Hero() {
   return (
@@ -43,7 +43,15 @@ export default function Hero() {
             </h1>
 
             <p
-              className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
+              className="animate-fade-up mt-4 max-w-xl text-lg leading-relaxed text-brand-200/90 sm:text-xl"
+              style={{ animationDelay: "0.09s" }}
+              lang="hi"
+            >
+              {site.taglineHi}
+            </p>
+
+            <p
+              className="animate-fade-up mt-4 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
               style={{ animationDelay: "0.12s" }}
             >
               {site.subTagline} Real advice from {site.name}, an independent
@@ -72,6 +80,17 @@ export default function Hero() {
                 {site.phoneDisplay}
               </a>
             </div>
+
+            <p
+              className="animate-fade-up mt-4 flex items-center gap-1.5 text-xs font-medium text-white/50"
+              style={{ animationDelay: "0.21s" }}
+            >
+              <span className="text-brand-400" lang="hi">
+                {hi.hindiNote}
+              </span>
+              <span aria-hidden="true">·</span>
+              <span>Hindi &amp; English, whatever&rsquo;s easier for you</span>
+            </p>
 
             <div
               className="animate-fade-up mt-14 grid w-full grid-cols-3 gap-4 border-t border-white/10 pt-8 sm:max-w-lg"

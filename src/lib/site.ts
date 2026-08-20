@@ -3,18 +3,36 @@ export const site = {
   shortName: "K.K. Jha",
   business: "Insurance & Investments",
   tagline: "Protect what matters. Plan what's next.",
+  taglineHi: "जो अनमोल है, उसकी रक्षा करें। आगे की योजना बनाएं।",
   subTagline:
     "Independent insurance & investment guidance for Indian families — in plain language, for the long run.",
+  subTaglineHi:
+    "आपके परिवार के लिए सही बीमा और निवेश सलाह — आसान हिंदी में, हर कदम पर साथ।",
   phone: "+919911910284",
   phoneDisplay: "+91 99119 10284",
   whatsappBase: "https://wa.me/919911910284",
   years: "25+",
   clients: "500+",
   location: "India",
+  languages: "हिंदी · English",
 };
 
 export const waLink = (message: string) =>
   `${site.whatsappBase}?text=${encodeURIComponent(message)}`;
+
+// Small bilingual snippets reused across sections — kept in one place so the
+// Hindi stays consistent everywhere it appears.
+export const hi = {
+  trustEyebrow: "प्राधिकृत भागीदार और प्रमाणित सलाहकार",
+  hindiNote: "हिंदी में भी बात कर सकते हैं",
+  aboutQuote:
+    "“ग्राहक का भरोसा ही सबसे बड़ी कमाई है — यही सोच लेकर 25 साल से काम कर रहा हूँ।”",
+  aboutQuoteBy: "— काली कांत झा",
+  servicesEyebrow: "हर ज़रूरत के लिए एक भरोसेमंद सलाहकार",
+  whyUsEyebrow: "परिवारों का भरोसा, हमारी पहचान",
+  contactHeading: "आज ही जुड़ें — एक मैसेज दूर।",
+  footerLine: "आपके परिवार की सुरक्षा, हमारी ज़िम्मेदारी।",
+};
 
 export const credentials = [
   {
@@ -138,5 +156,9 @@ export const faqs = [
   {
     q: "How quickly can I get a quote?",
     a: "Message me on WhatsApp with what you're looking for and I'll usually respond with options within the day.",
+  },
+  {
+    q: "क्या मैं हिंदी में बात कर सकता/सकती हूँ? (Can I talk in Hindi?)",
+    a: "बिल्कुल! आप हिंदी या अंग्रेज़ी, जिस भाषा में सहज हों उसमें WhatsApp पर बात कर सकते हैं — हर प्लान आसान भाषा में समझाया जाएगा। (Absolutely — chat in Hindi or English on WhatsApp, whichever you're comfortable with, and every plan will be explained in plain language.)",
   },
 ];

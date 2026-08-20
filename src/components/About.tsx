@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   Users2,
 } from "lucide-react";
-import { site } from "@/lib/site";
+import { hi, site } from "@/lib/site";
 
 const points = [
   {
@@ -72,6 +72,16 @@ export default function About() {
               <span className="text-xs font-bold text-ink-900">
                 {site.years} yrs experience
               </span>
+            </div>
+
+            {/* Hindi motto */}
+            <div className="mt-8 rounded-2xl border-l-4 border-brand-500 bg-white p-4 shadow-sm">
+              <p lang="hi" className="text-[13px] font-medium leading-relaxed text-ink-800">
+                {hi.aboutQuote}
+              </p>
+              <p className="mt-1.5 text-[11px] font-semibold text-brand-600">
+                {hi.aboutQuoteBy}
+              </p>
             </div>
           </div>
 

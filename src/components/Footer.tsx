@@ -1,5 +1,5 @@
 import { Shield, MessageCircle, Phone } from "lucide-react";
-import { site, waLink } from "@/lib/site";
+import { hi, site, waLink } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -38,7 +38,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="mt-6 text-center text-[11px] leading-relaxed text-white/35 sm:text-left">
+        <p lang="hi" className="mt-6 text-center text-xs font-medium text-brand-300/80 sm:text-left">
+          {hi.footerLine}
+        </p>
+
+        <p className="mt-3 text-center text-[11px] leading-relaxed text-white/35 sm:text-left">
           © {new Date().getFullYear()} {site.name} — {site.business}. All
           product names, insurer names &amp; logos referenced belong to
           their respective owners. Insurance is the subject matter of

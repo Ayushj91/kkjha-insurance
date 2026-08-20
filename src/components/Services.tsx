@@ -10,7 +10,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { services, waLink } from "@/lib/site";
+import { hi, services, waLink } from "@/lib/site";
 
 const iconMap: Record<string, LucideIcon> = {
   "shield-heart": HeartHandshake,
@@ -41,6 +41,9 @@ export default function Services() {
           <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             One advisor, every plan you need
           </h2>
+          <p lang="hi" className="mt-2 text-sm font-medium text-brand-600">
+            {hi.servicesEyebrow}
+          </p>
           <p className="mt-4 text-base leading-relaxed text-ink-700/70 sm:text-lg">
             From your first health cover to your family&rsquo;s retirement
             fund — get it all sorted through a single trusted relationship.

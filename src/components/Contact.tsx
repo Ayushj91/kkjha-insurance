@@ -1,5 +1,5 @@
-import { MessageCircle, Phone, MapPin, Clock } from "lucide-react";
-import { site, waLink } from "@/lib/site";
+import { MessageCircle, Phone, MapPin, Clock, Languages } from "lucide-react";
+import { hi, site, waLink } from "@/lib/site";
 
 export default function Contact() {
   return (
@@ -15,6 +15,9 @@ export default function Contact() {
           Your family&rsquo;s financial safety net,
           <br className="hidden sm:block" /> one message away.
         </h2>
+        <p lang="hi" className="mt-3 text-lg font-medium text-brand-300 sm:text-xl">
+          {hi.contactHeading}
+        </p>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
           Send a WhatsApp message with what you&rsquo;re looking for — a
           quote, a renewal, or just a question — and get a real reply, fast.
@@ -39,10 +42,11 @@ export default function Contact() {
           </a>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-2xl grid-cols-1 gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">
+        <div className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-4 border-t border-white/10 pt-8 sm:grid-cols-4">
           <InfoItem icon={<Phone className="h-4 w-4" />} label="Phone / WhatsApp" value={site.phoneDisplay} />
           <InfoItem icon={<MapPin className="h-4 w-4" />} label="Serving" value="Clients across India" />
           <InfoItem icon={<Clock className="h-4 w-4" />} label="Response time" value="Usually within a day" />
+          <InfoItem icon={<Languages className="h-4 w-4" />} label="Languages" value={site.languages} />
         </div>
       </div>
     </section>

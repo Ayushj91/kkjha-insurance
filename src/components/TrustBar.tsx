@@ -1,5 +1,5 @@
 import { Award, BadgeCheck, Building2, ShieldCheck } from "lucide-react";
-import { credentials } from "@/lib/site";
+import { credentials, hi } from "@/lib/site";
 
 const badgeIcons = [ShieldCheck, BadgeCheck, Award, Building2];
 
@@ -9,6 +9,10 @@ export default function TrustBar() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-ink-700/50">
           Authorised partner &amp; certified advisor
+          <span className="mx-2 text-ink-900/15">•</span>
+          <span lang="hi" className="normal-case tracking-normal text-ink-700/45">
+            {hi.trustEyebrow}
+          </span>
         </p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           {credentials.map((c, i) => {
