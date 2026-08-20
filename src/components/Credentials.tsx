@@ -23,9 +23,20 @@ export default function Credentials() {
           {credentials.map((c) => (
             <div
               key={c.org}
-              className="group rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:border-brand-400/40 hover:bg-white/[0.07]"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:border-brand-400/40 hover:bg-white/[0.07]"
             >
-              <div className="flex items-start gap-4">
+              {c.accent === "gold" ? (
+                <Award
+                  className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-gold-400/[0.06] transition-transform duration-300 group-hover:scale-110"
+                  strokeWidth={1.2}
+                />
+              ) : (
+                <BadgeCheck
+                  className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-brand-400/[0.06] transition-transform duration-300 group-hover:scale-110"
+                  strokeWidth={1.2}
+                />
+              )}
+              <div className="relative z-10 flex items-start gap-4">
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
                     c.accent === "gold"

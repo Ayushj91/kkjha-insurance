@@ -99,18 +99,22 @@ export const whyUs = [
   {
     title: "25+ years in the field",
     desc: "Decades of hands-on experience navigating claims, renewals & fine print — so you don't have to.",
+    icon: "history",
   },
   {
     title: "500+ families trust us",
     desc: "A growing community of clients who come back — and send their friends & family too.",
+    icon: "users",
   },
   {
     title: "Straight talk, no jargon",
     desc: "Every option explained in plain language, with your goals — not commissions — front and centre.",
+    icon: "message",
   },
   {
     title: "Support that outlasts the sale",
     desc: "From documentation to claims, we stay with you well after the policy is issued.",
+    icon: "lifebuoy",
   },
 ];
 

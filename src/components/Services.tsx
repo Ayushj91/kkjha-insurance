@@ -24,6 +24,12 @@ const iconMap: Record<string, LucideIcon> = {
   truck: Truck,
 };
 
+const accents = [
+  { grad: "from-brand-500 to-brand-600", glow: "bg-brand-50", shadow: "shadow-brand-600/20" },
+  { grad: "from-gold-400 to-gold-500", glow: "bg-gold-400/10", shadow: "shadow-gold-500/20" },
+  { grad: "from-sky-500 to-cyan-600", glow: "bg-sky-50", shadow: "shadow-sky-600/20" },
+];
+
 export default function Services() {
   return (
     <section id="services" className="bg-white py-20 sm:py-28">
@@ -44,13 +50,22 @@ export default function Services() {
         <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => {
             const Icon = iconMap[s.icon] ?? Activity;
+            const accent = accents[i % accents.length];
             return (
               <div
                 key={s.title}
                 className="group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8"
               >
-                <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-brand-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-md shadow-brand-600/20">
+                <div
+                  className={`absolute -right-6 -top-6 h-24 w-24 rounded-full ${accent.glow} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+                />
+                <Icon
+                  className="pointer-events-none absolute -bottom-4 -right-4 h-24 w-24 text-ink-900/[0.03] transition-transform duration-300 group-hover:scale-110"
+                  strokeWidth={1.2}
+                />
+                <div
+                  className={`relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${accent.grad} text-white shadow-md ${accent.shadow}`}
+                >
                   <Icon className="h-6 w-6" strokeWidth={2} />
                 </div>
                 <h3 className="relative z-10 text-base font-bold text-ink-900">
