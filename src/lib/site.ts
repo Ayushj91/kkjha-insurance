@@ -32,6 +32,21 @@ export const hi = {
   whyUsEyebrow: "परिवारों का भरोसा, हमारी पहचान",
   contactHeading: "आज ही जुड़ें — एक मैसेज दूर।",
   footerLine: "आपके परिवार की सुरक्षा, हमारी ज़िम्मेदारी।",
+  becomeAdvisorEyebrow: "हमारे साथ जुड़ें",
+  becomeAdvisorLine:
+    "मोटर इंश्योरेंस, लाइफ इंश्योरेंस और म्यूचुअल फंड्स में एडवाइज़र बनने के लिए भी संपर्क करें।",
+};
+
+// "Become an advisor" recruitment callout — a separate audience from
+// clients, so it's kept as its own small content block.
+export const becomeAdvisor = {
+  eyebrow: "Grow with us",
+  heading: "Want to become an advisor yourself?",
+  body: "We're also onboarding new advisors across Motor Insurance, Life Insurance & Mutual Funds — if you'd like to build a career in financial services, let's talk.",
+  lines: ["Motor Insurance", "Life Insurance", "Mutual Funds"],
+  ctaLabel: "Ask about becoming an advisor",
+  waMessage:
+    "Hi! I'm interested in becoming an advisor for Motor Insurance / Life Insurance / Mutual Funds.",
 };
 
 export const credentials = [
@@ -51,8 +66,8 @@ export const credentials = [
   },
   {
     org: "LIC of India",
-    role: "CLIA — Certified Life Insurance Advisor",
-    code: "M0028233A",
+    role: "CLIA — Chief Life Insurance Advisor",
+    code: "M000833A",
     codeLabel: "Advisor Code",
     accent: "brand",
   },
