@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, MapPin, Clock, Languages } from "lucide-react";
 import { hi, site, waLink } from "@/lib/site";
+import { ArrowScribble } from "./Doodles";
 
 export default function Contact() {
   return (
@@ -23,7 +24,15 @@ export default function Contact() {
           quote, a renewal, or just a question — and get a real reply, fast.
         </p>
 
-        <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="relative mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          {/* hand-written nudge pointing at the faster option */}
+          <div className="pointer-events-none absolute -top-14 right-4 hidden -rotate-6 items-start gap-1 text-gold-400 md:right-24 lg:flex">
+            <span className="font-hand mt-1 whitespace-nowrap text-base text-gold-400">
+              fastest reply, promise
+            </span>
+            <ArrowScribble className="h-14 w-10 rotate-[100deg] scale-x-[-1]" />
+          </div>
+
           <a
             href={waLink("Hi! I'd like to talk about an insurance / investment plan.")}
             target="_blank"

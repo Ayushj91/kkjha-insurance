@@ -38,9 +38,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <p lang="hi" className="mt-6 text-center text-xs font-medium text-brand-300/80 sm:text-left">
-          {hi.footerLine}
-        </p>
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 sm:flex-row">
+          <p lang="hi" className="text-center text-xs font-medium text-brand-300/80 sm:text-left">
+            {hi.footerLine}
+          </p>
+          <p className="font-hand rotate-[-1deg] text-lg text-white/70">
+            — {site.name}
+          </p>
+        </div>
 
         <p className="mt-3 text-center text-[11px] leading-relaxed text-white/35 sm:text-left">
           © {new Date().getFullYear()} {site.name} — {site.business}. All

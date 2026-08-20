@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import "@fontsource/fraunces/500.css";
+import "@fontsource/fraunces/600.css";
+import "@fontsource/fraunces/700.css";
+import "@fontsource/fraunces/600-italic.css";
+import "@fontsource/kalam/400.css";
+import "@fontsource/kalam/700.css";
 import "./globals.css";
 import { site } from "@/lib/site";
 
@@ -40,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased scroll-smooth">
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <div className="grain" />
         {children}
       </body>
     </html>

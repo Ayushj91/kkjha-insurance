@@ -12,6 +12,7 @@ import {
   Users2,
 } from "lucide-react";
 import { hi, site, waLink } from "@/lib/site";
+import { CircleScribble, Squiggle } from "./Doodles";
 
 export default function Hero() {
   return (
@@ -28,7 +29,7 @@ export default function Hero() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left">
-            <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-brand-200">
+            <div className="animate-fade-up mb-6 inline-flex -rotate-1 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-brand-200">
               <Sparkles className="h-3.5 w-3.5 text-gold-400" />
               {site.years} years guiding Indian families &amp; {site.clients} clients strong
             </div>
@@ -39,11 +40,14 @@ export default function Hero() {
             >
               Protect what matters.
               <br />
-              <span className="gradient-text">Plan what&rsquo;s next.</span>
+              <span className="relative inline-block">
+                <span className="gradient-text">Plan what&rsquo;s next.</span>
+                <Squiggle className="absolute -bottom-2 left-0 h-3 w-full text-gold-400/80" />
+              </span>
             </h1>
 
             <p
-              className="animate-fade-up mt-4 max-w-xl text-lg leading-relaxed text-brand-200/90 sm:text-xl"
+              className="font-hand animate-fade-up mt-5 max-w-xl text-xl leading-relaxed text-brand-200/90 sm:text-2xl"
               style={{ animationDelay: "0.09s" }}
               lang="hi"
             >
@@ -85,7 +89,7 @@ export default function Hero() {
               className="animate-fade-up mt-4 flex items-center gap-1.5 text-xs font-medium text-white/50"
               style={{ animationDelay: "0.21s" }}
             >
-              <span className="text-brand-400" lang="hi">
+              <span className="font-hand text-sm text-brand-400" lang="hi">
                 {hi.hindiNote}
               </span>
               <span aria-hidden="true">·</span>
@@ -112,9 +116,9 @@ export default function Hero() {
 function HeroVisual() {
   return (
     <div className="relative mx-auto hidden aspect-square w-full max-w-md lg:block">
-      {/* orbit ring */}
-      <div className="absolute inset-6 rounded-full border border-dashed border-white/10" />
-      <div className="absolute inset-16 rounded-full border border-white/5" />
+      {/* hand-drawn orbit rings */}
+      <CircleScribble className="absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] rotate-3 text-white/10" />
+      <CircleScribble className="absolute inset-16 h-[calc(100%-8rem)] w-[calc(100%-8rem)] -rotate-6 text-white/[0.07]" />
 
       {/* center medallion */}
       <div className="absolute inset-0 flex items-center justify-center">
@@ -122,36 +126,41 @@ function HeroVisual() {
           <div className="absolute inset-2 rounded-full border border-white/15" />
           <ShieldCheck className="h-20 w-20 text-white" strokeWidth={1.6} />
         </div>
+
+        {/* hand-written sticky label, taped over the medallion's edge */}
+        <div className="font-hand absolute -bottom-3 left-1/2 -translate-x-1/2 rotate-[-4deg] rounded-md bg-gold-400 px-3 py-1 text-xs font-bold text-ink-950 shadow-md">
+          {site.years} yrs strong ✓
+        </div>
       </div>
 
-      {/* floating service badges */}
+      {/* floating service pins */}
       <FloatBadge
-        className="left-1 top-6"
+        className="left-1 top-6 -rotate-6"
         icon={<HeartHandshake className="h-5 w-5" />}
         gradient="from-rose-400 to-rose-500"
         delay="0s"
       />
       <FloatBadge
-        className="right-0 top-16"
+        className="right-0 top-16 rotate-6"
         icon={<Activity className="h-5 w-5" />}
         gradient="from-brand-400 to-brand-500"
         delay="1.1s"
       />
       <FloatBadge
-        className="left-0 bottom-20"
+        className="left-0 bottom-20 rotate-3"
         icon={<Car className="h-5 w-5" />}
         gradient="from-sky-400 to-sky-500"
         delay="2s"
       />
       <FloatBadge
-        className="right-2 bottom-8"
+        className="right-2 bottom-8 -rotate-3"
         icon={<Plane className="h-5 w-5" />}
         gradient="from-gold-400 to-gold-500"
         delay="0.6s"
       />
 
       {/* floating stat cards */}
-      <div className="animate-float absolute -left-4 top-1/2 hidden -translate-y-1/2 xl:block">
+      <div className="animate-float absolute -left-4 top-1/2 hidden -translate-y-1/2 rotate-1 xl:block">
         <div className="glass flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-400/20 text-brand-300">
             <Users2 className="h-4.5 w-4.5" />
@@ -166,7 +175,7 @@ function HeroVisual() {
       </div>
 
       <div
-        className="animate-float-slow absolute -right-6 bottom-2 hidden xl:block"
+        className="animate-float-slow absolute -right-6 bottom-2 hidden -rotate-2 xl:block"
         style={{ animationDelay: "1.5s" }}
       >
         <div className="glass flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl">
@@ -198,7 +207,7 @@ function FloatBadge({
 }) {
   return (
     <div
-      className={`animate-float absolute flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-lg ring-4 ring-ink-950/40 ${className}`}
+      className={`animate-float absolute flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br ${gradient} text-white shadow-lg ring-[3px] ring-white/80 ${className}`}
       style={{ animationDelay: delay }}
     >
       {icon}

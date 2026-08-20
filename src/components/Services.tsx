@@ -25,10 +25,12 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 const accents = [
-  { grad: "from-brand-500 to-brand-600", glow: "bg-brand-50", shadow: "shadow-brand-600/20" },
-  { grad: "from-gold-400 to-gold-500", glow: "bg-gold-400/10", shadow: "shadow-gold-500/20" },
-  { grad: "from-sky-500 to-cyan-600", glow: "bg-sky-50", shadow: "shadow-sky-600/20" },
+  { ring: "border-brand-500", fill: "bg-brand-50", icon: "text-brand-600", glow: "bg-brand-50" },
+  { ring: "border-gold-500", fill: "bg-gold-400/10", icon: "text-gold-600", glow: "bg-gold-400/10" },
+  { ring: "border-sky-500", fill: "bg-sky-50", icon: "text-sky-600", glow: "bg-sky-50" },
 ];
+
+const rotations = ["sm:-rotate-1", "sm:rotate-1", "sm:rotate-0"];
 
 export default function Services() {
   return (
@@ -54,10 +56,11 @@ export default function Services() {
           {services.map((s, i) => {
             const Icon = iconMap[s.icon] ?? Activity;
             const accent = accents[i % accents.length];
+            const rotate = rotations[i % rotations.length];
             return (
               <div
                 key={s.title}
-                className="group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8"
+                className={`group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white p-6 transition-all hover:-translate-y-1 hover:rotate-0 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8 ${rotate}`}
               >
                 <div
                   className={`absolute -right-6 -top-6 h-24 w-24 rounded-full ${accent.glow} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
@@ -67,7 +70,7 @@ export default function Services() {
                   strokeWidth={1.2}
                 />
                 <div
-                  className={`relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${accent.grad} text-white shadow-md ${accent.shadow}`}
+                  className={`relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed ${accent.ring} ${accent.fill} ${accent.icon}`}
                 >
                   <Icon className="h-6 w-6" strokeWidth={2} />
                 </div>
@@ -85,7 +88,7 @@ export default function Services() {
                 >
                   Ask about this →
                 </a>
-                <span className="absolute right-5 top-5 text-[11px] font-bold text-ink-900/10">
+                <span className="font-hand absolute right-5 top-4 text-base text-ink-900/15">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
