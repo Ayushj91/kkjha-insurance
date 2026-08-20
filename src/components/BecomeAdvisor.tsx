@@ -8,7 +8,7 @@ export default function BecomeAdvisor() {
       <div className="bg-grid absolute inset-0 opacity-[0.12] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
 
       <div className="relative mx-auto max-w-4xl px-5 sm:px-8">
-        <div className="relative -rotate-1 rounded-3xl border-2 border-dashed border-gold-500/40 bg-paper-card px-6 py-10 text-center shadow-lg shadow-ink-900/5 sm:px-14 sm:py-12">
+        <div className="relative rounded-3xl border-2 border-dashed border-gold-500/40 bg-paper-card px-6 py-10 text-center shadow-lg shadow-ink-900/5 sm:px-14 sm:py-12">
           <StarScribble className="absolute -left-3 -top-4 h-9 w-9 text-gold-500/60 sm:-left-6 sm:-top-6 sm:h-12 sm:w-12" />
           <StarScribble className="absolute -bottom-3 -right-2 h-7 w-7 text-brand-500/50 sm:-bottom-4 sm:-right-4 sm:h-9 sm:w-9" />
 

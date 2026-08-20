@@ -8,8 +8,6 @@ const iconMap: Record<string, LucideIcon> = {
   lifebuoy: LifeBuoy,
 };
 
-const rotations = ["sm:-rotate-1", "sm:rotate-1", "sm:rotate-1", "sm:-rotate-1"];
-
 export default function WhyUs() {
   return (
     <section id="why-us" className="relative overflow-hidden bg-brand-50/40 py-20 sm:py-28">
@@ -35,7 +33,7 @@ export default function WhyUs() {
             return (
               <div
                 key={w.title}
-                className={`group flex gap-5 rounded-2xl bg-white p-6 shadow-sm shadow-brand-900/5 transition-transform hover:-translate-y-1 hover:rotate-0 hover:shadow-md ${rotations[i % rotations.length]}`}
+                className="group flex gap-5 rounded-2xl bg-white p-6 shadow-sm shadow-brand-900/5 transition-transform hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-md shadow-brand-600/20">
                   <Icon className="h-5.5 w-5.5" strokeWidth={2} />

@@ -29,7 +29,7 @@ export default function Hero() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left">
-            <div className="animate-fade-up mb-6 inline-flex -rotate-1 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-brand-200">
+            <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-brand-200">
               <Sparkles className="h-3.5 w-3.5 text-gold-400" />
               {site.years} years guiding Indian families &amp; {site.clients} clients strong
             </div>
@@ -160,7 +160,7 @@ function HeroVisual() {
       />
 
       {/* floating stat cards */}
-      <div className="animate-float absolute -left-4 top-1/2 hidden -translate-y-1/2 rotate-1 xl:block">
+      <div className="animate-float absolute -left-4 top-1/2 hidden -translate-y-1/2 xl:block">
         <div className="glass-dark flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 shadow-xl">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-400/20 text-brand-300">
             <Users2 className="h-4.5 w-4.5" />
@@ -175,7 +175,7 @@ function HeroVisual() {
       </div>
 
       <div
-        className="animate-float-slow absolute -right-6 bottom-2 hidden -rotate-2 xl:block"
+        className="animate-float-slow absolute -right-6 bottom-2 hidden xl:block"
         style={{ animationDelay: "1.5s" }}
       >
         <div className="glass-dark flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 shadow-xl">

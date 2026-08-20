@@ -30,8 +30,6 @@ const accents = [
   { ring: "border-sky-500", fill: "bg-sky-50", icon: "text-sky-600", glow: "bg-sky-50" },
 ];
 
-const rotations = ["sm:-rotate-1", "sm:rotate-1", "sm:rotate-0"];
-
 export default function Services() {
   return (
     <section id="services" className="bg-white py-20 sm:py-28">
@@ -56,11 +54,10 @@ export default function Services() {
           {services.map((s, i) => {
             const Icon = iconMap[s.icon] ?? Activity;
             const accent = accents[i % accents.length];
-            const rotate = rotations[i % rotations.length];
             return (
               <div
                 key={s.title}
-                className={`group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white transition-all hover:-translate-y-1 hover:rotate-0 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8 ${rotate}`}
+                className="group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white transition-all hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8"
               >
                 {/* illustration panel */}
                 <div className={`relative flex h-36 items-center justify-center overflow-hidden ${accent.fill}`}>

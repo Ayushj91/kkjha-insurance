@@ -2,8 +2,6 @@ import { Award, BadgeCheck } from "lucide-react";
 import { credentials } from "@/lib/site";
 import { StampRing } from "./Doodles";
 
-const rotations = ["sm:-rotate-1", "sm:rotate-1", "sm:rotate-1", "sm:-rotate-1"];
-
 export default function Credentials() {
   return (
     <section id="credentials" className="relative bg-ink-950 py-20 sm:py-28">
@@ -23,10 +21,10 @@ export default function Credentials() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {credentials.map((c, i) => (
+          {credentials.map((c) => (
             <div
               key={c.org}
-              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:rotate-0 hover:border-brand-400/40 hover:bg-white/[0.07] ${rotations[i % rotations.length]}`}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-brand-400/40 hover:bg-white/[0.07]"
             >
               {/* hand-stamped seal, tucked in the corner like an ink stamp */}
               <StampRing
