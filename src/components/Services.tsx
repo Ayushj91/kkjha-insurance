@@ -60,37 +60,48 @@ export default function Services() {
             return (
               <div
                 key={s.title}
-                className={`group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white p-6 transition-all hover:-translate-y-1 hover:rotate-0 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8 ${rotate}`}
+                className={`group relative overflow-hidden rounded-2xl border border-ink-900/8 bg-white transition-all hover:-translate-y-1 hover:rotate-0 hover:border-brand-500/30 hover:shadow-xl hover:shadow-brand-900/8 ${rotate}`}
               >
-                <div
-                  className={`absolute -right-6 -top-6 h-24 w-24 rounded-full ${accent.glow} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
-                />
-                <Icon
-                  className="pointer-events-none absolute -bottom-4 -right-4 h-24 w-24 text-ink-900/[0.03] transition-transform duration-300 group-hover:scale-110"
-                  strokeWidth={1.2}
-                />
-                <div
-                  className={`relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed ${accent.ring} ${accent.fill} ${accent.icon}`}
-                >
-                  <Icon className="h-6 w-6" strokeWidth={2} />
+                {/* illustration panel */}
+                <div className={`relative flex h-36 items-center justify-center overflow-hidden ${accent.fill}`}>
+                  <div
+                    className={`absolute -right-8 -top-8 h-28 w-28 rounded-full ${accent.glow} opacity-70`}
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={s.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="relative z-10 h-28 w-auto drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <span
+                    className={`font-hand absolute right-3 top-2.5 z-10 text-base ${accent.icon} opacity-40`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </div>
-                <h3 className="relative z-10 text-base font-bold text-ink-900">
-                  {s.title}
-                </h3>
-                <p className="relative z-10 mt-1.5 text-[13px] leading-relaxed text-ink-700/70">
-                  {s.desc}
-                </p>
-                <a
-                  href={waLink(`Hi! I'd like to know more about ${s.title}.`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 mt-4 inline-flex items-center text-xs font-bold text-brand-700 opacity-0 transition-opacity group-hover:opacity-100"
-                >
-                  Ask about this →
-                </a>
-                <span className="font-hand absolute right-5 top-4 text-base text-ink-900/15">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+
+                <div className="relative p-6">
+                  <div
+                    className={`relative z-10 -mt-11 mb-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed bg-white shadow-sm ${accent.ring} ${accent.icon}`}
+                  >
+                    <Icon className="h-6 w-6" strokeWidth={2} />
+                  </div>
+                  <h3 className="relative z-10 text-base font-bold text-ink-900">
+                    {s.title}
+                  </h3>
+                  <p className="relative z-10 mt-1.5 text-[13px] leading-relaxed text-ink-700/70">
+                    {s.desc}
+                  </p>
+                  <a
+                    href={waLink(`Hi! I'd like to know more about ${s.title}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative z-10 mt-4 inline-flex items-center text-xs font-bold text-brand-700 opacity-0 transition-opacity group-hover:opacity-100"
+                  >
+                    Ask about this →
+                  </a>
+                </div>
               </div>
             );
           })}

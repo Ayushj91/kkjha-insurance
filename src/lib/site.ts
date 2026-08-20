@@ -70,46 +70,55 @@ export const services = [
     title: "Life Insurance",
     desc: "Term plans, child plans & pension plans that protect your family's tomorrow.",
     icon: "shield-heart",
+    image: "/images/services/life.svg",
   },
   {
     title: "Health Insurance",
     desc: "Individual, family floater & senior citizen plans for peace of mind.",
     icon: "pulse",
+    image: "/images/services/health.svg",
   },
   {
     title: "Mutual Funds",
     desc: "SIPs and wealth-building plans for education, retirement & big goals.",
     icon: "trending-up",
+    image: "/images/services/mutual-funds.svg",
   },
   {
     title: "Motor Insurance",
     desc: "Private car, two-wheeler & commercial vehicle cover, sorted fast.",
     icon: "car",
+    image: "/images/services/motor.svg",
   },
   {
     title: "Home & Factory Insurance",
     desc: "Protection for the property and assets you've worked hard to build.",
     icon: "home",
+    image: "/images/services/home.svg",
   },
   {
     title: "Travel Insurance",
     desc: "Domestic & international trip cover so you can explore worry-free.",
     icon: "plane",
+    image: "/images/services/travel.svg",
   },
   {
     title: "Group Medical Policy",
     desc: "Health coverage solutions designed for teams & organisations.",
     icon: "users",
+    image: "/images/services/group-medical.svg",
   },
   {
     title: "Workmen Compensation",
     desc: "Employer liability cover that keeps your workforce protected.",
     icon: "hard-hat",
+    image: "/images/services/workmen.svg",
   },
   {
     title: "Transit Insurance",
     desc: "Goods-in-transit cover across road, rail, air & sea.",
     icon: "truck",
+    image: "/images/services/transit.svg",
   },
 ] as const;
 
