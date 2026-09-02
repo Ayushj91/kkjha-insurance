@@ -7,6 +7,7 @@ import {
   compact,
   durationLabel,
   emiForTenure,
+  inflateBackward,
   inr,
   monthYear,
 } from "@/lib/finance";
@@ -28,6 +29,7 @@ export default function HomeLoanCalculator() {
 
   const [stepOn, setStepOn] = useState(false);
   const [stepPct, setStepPct] = useState(5);
+  const [inflation, setInflation] = useState(6);
 
   const startDate = useMemo(() => new Date(), []);
 
@@ -86,6 +88,7 @@ export default function HomeLoanCalculator() {
           extraEmis={extraEmis} setExtraEmis={setExtraEmis}
           stepOn={stepOn} setStepOn={setStepOn}
           stepPct={stepPct} setStepPct={setStepPct}
+          inflation={inflation} setInflation={setInflation}
           plan={plan}
         />
       </div>
@@ -96,6 +99,21 @@ export default function HomeLoanCalculator() {
   const basePayoff = base.feasible ? addMonths(startDate, base.months) : null;
   const saveMonths = base.feasible && anyBoost ? base.months - plan.months : 0;
   const saveInterest = base.feasible && anyBoost ? base.totalInterest - plan.totalInterest : 0;
+
+  // Discount each year's interest (and total) individually rather than
+  // applying one lump discount to the grand total — a loan's payments are
+  // spread over many years, so a rupee of interest paid in year 2 is worth
+  // more in today's money than a rupee paid in year 18.
+  const realTotalInterest = plan.yearly.reduce(
+    (sum: number, row: { year: number; interestPaid: number; principalPaid: number }) =>
+      sum + row.interestPaid / Math.pow(1 + inflation / 100, row.year),
+    0
+  );
+  const realTotalPaid = plan.yearly.reduce(
+    (sum: number, row: { year: number; interestPaid: number; principalPaid: number }) =>
+      sum + (row.interestPaid + row.principalPaid) / Math.pow(1 + inflation / 100, row.year),
+    0
+  );
 
   return (
     <div className="flex flex-col gap-5">
@@ -168,6 +186,13 @@ export default function HomeLoanCalculator() {
         <Stat label="Total you'll repay" value={"₹" + compact(plan.totalPaid)} />
       </div>
 
+      <div className="rounded-2xl border border-ink-900/8 bg-brand-50/50 px-4 py-3.5 text-[13px] leading-relaxed text-ink-700/75">
+        In today&rsquo;s money (after {inflation}% inflation, discounted year by year), that&rsquo;s really about{" "}
+        <b className="font-mono font-semibold text-ink-900">₹{compact(realTotalInterest)}</b> in interest and{" "}
+        <b className="font-mono font-semibold text-ink-900">₹{compact(realTotalPaid)}</b> repaid in total — future
+        rupees are worth less than what they buy now.
+      </div>
+
       {anyBoost && base.feasible && (
         <div className="rounded-2xl border border-ink-900/8 bg-brand-50/50 px-4 py-3.5 text-[13px] leading-relaxed text-ink-700/75">
           On EMI alone you&rsquo;d finish <b className="font-mono font-semibold text-ink-900">{basePayoff && monthYear(basePayoff)}</b>{" "}
@@ -179,13 +204,14 @@ export default function HomeLoanCalculator() {
       {/* DETAILED ANALYSIS */}
       <Panel title="Year-by-year breakdown">
         <div className="-mx-1 overflow-x-auto">
-          <table className="w-full min-w-[460px] border-collapse text-[13px]">
+          <table className="w-full min-w-[560px] border-collapse text-[13px]">
             <thead>
               <tr className="text-left text-ink-700/50">
                 <th className="px-3 py-2 font-medium">Year</th>
                 <th className="px-3 py-2 font-medium">Principal paid</th>
                 <th className="px-3 py-2 font-medium">Interest paid</th>
                 <th className="px-3 py-2 font-medium">Balance left</th>
+                <th className="px-3 py-2 font-medium">Balance (today&rsquo;s money)</th>
               </tr>
             </thead>
             <tbody>
@@ -195,6 +221,9 @@ export default function HomeLoanCalculator() {
                   <td className="font-mono px-3 py-2 text-brand-700">₹{compact(row.principalPaid)}</td>
                   <td className="font-mono px-3 py-2 text-clay-600">₹{compact(row.interestPaid)}</td>
                   <td className="font-mono px-3 py-2 text-ink-700/70">₹{compact(row.balance)}</td>
+                  <td className="font-mono px-3 py-2 text-ink-700/60">
+                    ₹{compact(inflateBackward(row.balance, row.year, inflation))}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -213,6 +242,7 @@ export default function HomeLoanCalculator() {
         extraEmis={extraEmis} setExtraEmis={setExtraEmis}
         stepOn={stepOn} setStepOn={setStepOn}
         stepPct={stepPct} setStepPct={setStepPct}
+        inflation={inflation} setInflation={setInflation}
         plan={plan}
       />
     </div>
@@ -230,6 +260,7 @@ function LoanInputs(p: {
   extraEmis: number; setExtraEmis: (v: number) => void;
   stepOn: boolean; setStepOn: (v: boolean) => void;
   stepPct: number; setStepPct: (v: number) => void;
+  inflation: number; setInflation: (v: number) => void;
   plan: ReturnType<typeof amortizeLoan>;
 }) {
   return (
@@ -252,6 +283,16 @@ function LoanInputs(p: {
         ) : (
           <Row label="Monthly EMI" money value={p.emiInput} onChange={p.setEmiInput} min={2000} max={1000000} step={500} />
         )}
+        <Row
+          label="Expected inflation"
+          value={p.inflation}
+          onChange={p.setInflation}
+          min={0}
+          max={12}
+          step={0.5}
+          suffix="% p.a."
+          hint="Used to show interest and repayments in today's purchasing power, alongside the nominal numbers"
+        />
       </Panel>
 
       <Panel title="Speed it up">

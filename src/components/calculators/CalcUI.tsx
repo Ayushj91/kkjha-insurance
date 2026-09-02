@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { clamp, inr } from "@/lib/finance";
 
 // Shared building blocks for every calculator — a labelled number+slider
@@ -51,22 +52,53 @@ export function Row({
   money?: boolean;
   suffix?: string;
 }) {
-  const display = money ? inr(value) : String(value);
+  const format = (v: number) => (money ? inr(v) : String(v));
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState(format(value));
+
+  // Keep the text box in sync when the number changes from elsewhere (the
+  // slider, a preset chip) — but never while the person is actively typing
+  // in it, or we'd stomp on a value they haven't finished entering yet
+  // (e.g. clearing the field to type a new number below the old minimum).
+  useEffect(() => {
+    if (document.activeElement !== inputRef.current) setText(format(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, money]);
+
+  const commit = () => {
+    const raw = text.replace(/[^0-9.]/g, "");
+    const num = parseFloat(raw);
+    const next = raw === "" || isNaN(num) ? value : clamp(num, min, max);
+    onChange(next);
+    setText(format(next));
+  };
+
   return (
     <div className="mb-5 last:mb-0">
       <div className="mb-2 flex items-center justify-between gap-3">
         <label className="text-[13.5px] font-medium text-ink-800">{label}</label>
-        <div className="flex items-center gap-1 rounded-lg border border-ink-900/10 bg-brand-50/50 px-2.5 py-1.5">
+        <div className="flex items-center gap-1 rounded-lg border border-ink-900/10 bg-brand-50/50 px-2.5 py-1.5 focus-within:border-brand-500/50 focus-within:bg-white">
           {money && <span className="font-mono text-[13px] text-ink-700/60">₹</span>}
           <input
+            ref={inputRef}
             type="text"
             inputMode="decimal"
-            value={display}
+            value={text}
             onChange={(e) => {
               const raw = e.target.value.replace(/[^0-9.]/g, "");
-              if (raw === "") return onChange(min);
-              const num = parseFloat(raw);
-              if (!isNaN(num)) onChange(clamp(num, min, max));
+              setText(e.target.value.replace(/[^0-9.]/g, ""));
+              // Live-update the calculation as they type, without forcing
+              // the value back into [min, max] mid-entry — that clamping
+              // is what made typing feel broken (e.g. typing "15000" into
+              // a field with min 500 would snap to 500 after the first "1").
+              if (raw !== "" && raw !== ".") {
+                const num = parseFloat(raw);
+                if (!isNaN(num)) onChange(num);
+              }
+            }}
+            onBlur={commit}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") inputRef.current?.blur();
             }}
             className="w-[104px] bg-transparent text-right font-mono text-[13px] font-semibold text-ink-900 outline-none sm:w-[124px] sm:text-[14px]"
           />
@@ -82,7 +114,7 @@ export function Row({
         min={min}
         max={max}
         step={step}
-        value={value}
+        value={clamp(value, min, max)}
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="calc-range"
       />

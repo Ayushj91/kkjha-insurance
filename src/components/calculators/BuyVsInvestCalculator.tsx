@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { compact, inr, simulateBuyVsInvest } from "@/lib/finance";
+import { compact, inflateBackward, inr, simulateBuyVsInvest } from "@/lib/finance";
 import { Panel, Row, Stat, Toggle } from "./CalcUI";
 import { ChartLegend, TrendChart } from "./Chart";
 
@@ -16,6 +16,7 @@ export default function BuyVsInvestCalculator() {
   const [rent0, setRent0] = useState(30000);
   const [rentGrowth, setRentGrowth] = useState(7);
   const [accountRent, setAccountRent] = useState(true);
+  const [inflation, setInflation] = useState(6);
 
   const res = useMemo(
     () =>
@@ -28,6 +29,8 @@ export default function BuyVsInvestCalculator() {
   const sipWins = res.sipFinal >= res.homeFinal;
   const gap = Math.abs(res.sipFinal - res.homeFinal);
   const dpPct = Math.round((downPayment / homePrice) * 100);
+  const realHomeFinal = inflateBackward(res.homeFinal, years, inflation);
+  const realSipFinal = inflateBackward(res.sipFinal, years, inflation);
 
   return (
     <div className="flex flex-col gap-5">
@@ -44,6 +47,9 @@ export default function BuyVsInvestCalculator() {
             <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-gold-600 sm:text-3xl">
               ₹{compact(res.homeFinal)}
             </div>
+            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
+              ≈ ₹{compact(realHomeFinal)} today&rsquo;s money
+            </div>
           </div>
           <div
             className={`rounded-2xl border p-4 transition-shadow ${
@@ -53,6 +59,9 @@ export default function BuyVsInvestCalculator() {
             <div className="text-xs font-medium text-ink-700/55">SIP corpus</div>
             <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-brand-700 sm:text-3xl">
               ₹{compact(res.sipFinal)}
+            </div>
+            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
+              ≈ ₹{compact(realSipFinal)} today&rsquo;s money
             </div>
           </div>
         </div>
@@ -169,6 +178,16 @@ export default function BuyVsInvestCalculator() {
           step={0.5}
           suffix="% / yr"
           hint="Equity mutual funds are often assumed at ~11–13%."
+        />
+        <Row
+          label="Expected inflation"
+          value={inflation}
+          onChange={setInflation}
+          min={0}
+          max={12}
+          step={0.5}
+          suffix="% p.a."
+          hint="Used to show both final values in today's purchasing power, alongside the nominal numbers"
         />
 
         <Toggle on={accountRent} set={setAccountRent}>Account for rent (fair comparison)</Toggle>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { compact, durationLabel, inr, simulateSip } from "@/lib/finance";
+import { compact, durationLabel, inflateBackward, inr, simulateSip } from "@/lib/finance";
 import { Chip, Panel, Row, Stat, Toggle } from "./CalcUI";
 import { ChartLegend, TrendChart } from "./Chart";
 
@@ -10,6 +10,7 @@ export default function SipCalculator() {
   const [annualReturn, setAnnualReturn] = useState(12);
   const [years, setYears] = useState(15);
   const [existingCorpus, setExistingCorpus] = useState(0);
+  const [inflation, setInflation] = useState(6);
 
   const [stepUpOn, setStepUpOn] = useState(false);
   const [stepUpPct, setStepUpPct] = useState(10);
@@ -33,6 +34,7 @@ export default function SipCalculator() {
   const stepUpGain = stepUpOn ? res.corpus - withoutStepUp.corpus : 0;
 
   const gainPct = res.invested > 0 ? (res.gain / res.invested) * 100 : 0;
+  const realCorpus = inflateBackward(res.corpus, years, inflation);
 
   return (
     <div className="flex flex-col gap-5">
@@ -49,6 +51,9 @@ export default function SipCalculator() {
           <span className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold">
             +{gainPct.toFixed(0)}% growth
           </span>
+        </div>
+        <div className="mt-1 text-[13px] text-brand-100/70">
+          worth about <b className="font-mono font-semibold text-white">₹{compact(realCorpus)}</b> in today&rsquo;s money, after {inflation}% inflation
         </div>
       </div>
 
@@ -100,13 +105,14 @@ export default function SipCalculator() {
       {/* DETAILED ANALYSIS */}
       <Panel title="Year-by-year breakdown">
         <div className="-mx-1 overflow-x-auto">
-          <table className="w-full min-w-[420px] border-collapse text-[13px]">
+          <table className="w-full min-w-[520px] border-collapse text-[13px]">
             <thead>
               <tr className="text-left text-ink-700/50">
                 <th className="px-3 py-2 font-medium">Year</th>
                 <th className="px-3 py-2 font-medium">Invested</th>
                 <th className="px-3 py-2 font-medium">Gain</th>
                 <th className="px-3 py-2 font-medium">Value</th>
+                <th className="px-3 py-2 font-medium">Value (today&rsquo;s money)</th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +124,9 @@ export default function SipCalculator() {
                     <td className="font-mono px-3 py-2 text-ink-700/70">₹{compact(row.invested)}</td>
                     <td className="font-mono px-3 py-2 text-brand-700">₹{compact(row.gain)}</td>
                     <td className="font-mono px-3 py-2 font-semibold text-ink-900">₹{compact(row.value)}</td>
+                    <td className="font-mono px-3 py-2 text-ink-700/60">
+                      ₹{compact(inflateBackward(row.value, row.year, inflation))}
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -156,6 +165,16 @@ export default function SipCalculator() {
           max={10000000}
           step={10000}
           hint="A lump sum you already hold, counted as your starting corpus"
+        />
+        <Row
+          label="Expected inflation"
+          value={inflation}
+          onChange={setInflation}
+          min={0}
+          max={12}
+          step={0.5}
+          suffix="% p.a."
+          hint="Used to show your corpus in today's purchasing power, alongside the nominal number"
         />
       </Panel>
 

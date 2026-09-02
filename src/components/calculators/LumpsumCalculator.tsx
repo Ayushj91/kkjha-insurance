@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { compact, simulateLumpsum } from "@/lib/finance";
+import { compact, inflateBackward, simulateLumpsum } from "@/lib/finance";
 import { Panel, Row, Stat } from "./CalcUI";
 import { ChartLegend, TrendChart } from "./Chart";
 
@@ -9,10 +9,12 @@ export default function LumpsumCalculator() {
   const [amount, setAmount] = useState(500000);
   const [annualReturn, setAnnualReturn] = useState(12);
   const [years, setYears] = useState(15);
+  const [inflation, setInflation] = useState(6);
 
   const res = useMemo(() => simulateLumpsum({ amount, annualReturn, years }), [amount, annualReturn, years]);
   const multiple = amount > 0 ? res.corpus / amount : 0;
   const doublingYears = annualReturn > 0 ? 72 / annualReturn : Infinity;
+  const realCorpus = inflateBackward(res.corpus, years, inflation);
 
   return (
     <div className="flex flex-col gap-5">
@@ -29,6 +31,9 @@ export default function LumpsumCalculator() {
           <span className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold">
             {multiple.toFixed(1)}x your money
           </span>
+        </div>
+        <div className="mt-1 text-[13px] text-brand-100/70">
+          worth about <b className="font-mono font-semibold text-white">₹{compact(realCorpus)}</b> in today&rsquo;s money, after {inflation}% inflation
         </div>
       </div>
 
@@ -69,13 +74,14 @@ export default function LumpsumCalculator() {
       {/* DETAILED ANALYSIS */}
       <Panel title="Value at each milestone">
         <div className="-mx-1 overflow-x-auto">
-          <table className="w-full min-w-[380px] border-collapse text-[13px]">
+          <table className="w-full min-w-[480px] border-collapse text-[13px]">
             <thead>
               <tr className="text-left text-ink-700/50">
                 <th className="px-3 py-2 font-medium">Year</th>
                 <th className="px-3 py-2 font-medium">Value</th>
                 <th className="px-3 py-2 font-medium">Gain so far</th>
                 <th className="px-3 py-2 font-medium">Multiple</th>
+                <th className="px-3 py-2 font-medium">Value (today&rsquo;s money)</th>
               </tr>
             </thead>
             <tbody>
@@ -87,6 +93,9 @@ export default function LumpsumCalculator() {
                     <td className="font-mono px-3 py-2 font-semibold text-ink-900">₹{compact(row.value)}</td>
                     <td className="font-mono px-3 py-2 text-brand-700">₹{compact(row.value - amount)}</td>
                     <td className="font-mono px-3 py-2 text-ink-700/70">{(row.value / amount).toFixed(2)}x</td>
+                    <td className="font-mono px-3 py-2 text-ink-700/60">
+                      ₹{compact(inflateBackward(row.value, row.year, inflation))}
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -108,6 +117,16 @@ export default function LumpsumCalculator() {
           hint="Index funds have historically returned ~10–13% p.a. over long periods."
         />
         <Row label="Investment period" value={years} onChange={setYears} min={1} max={40} step={1} suffix="yrs" />
+        <Row
+          label="Expected inflation"
+          value={inflation}
+          onChange={setInflation}
+          min={0}
+          max={12}
+          step={0.5}
+          suffix="% p.a."
+          hint="Used to show your final value in today's purchasing power, alongside the nominal number"
+        />
       </Panel>
 
       <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">

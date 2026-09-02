@@ -179,12 +179,17 @@ html {
   background: var(--color-brand-100);
   outline: none;
   cursor: pointer;
+  /* Without this, a touch that starts on the slider but drifts vertically
+     even a little gets interpreted as a page scroll on mobile, so the
+     thumb never moves and the page jumps instead. This tells the browser
+     the slider owns the gesture, not the page. */
+  touch-action: none;
 }
 .calc-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--color-brand-600);
   cursor: pointer;
@@ -192,8 +197,8 @@ html {
   box-shadow: 0 0 0 1px var(--color-brand-600);
 }
 .calc-range::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--color-brand-600);
   cursor: pointer;
