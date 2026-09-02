@@ -6,14 +6,24 @@ import "@fontsource/fraunces/600-italic.css";
 import "@fontsource/kalam/400.css";
 import "@fontsource/kalam/700.css";
 import "./globals.css";
-import { site } from "@/lib/site";
+import { site, siteUrl } from "@/lib/site";
 
-// Set NEXT_PUBLIC_SITE_URL once you have a custom domain, so shared links
-// (WhatsApp, social) resolve the preview image correctly. Falls back to the
-// Vercel-provided URL, then localhost during development.
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+// Organization / local-business structured data, shared site-wide so every
+// page (including the calculators) benefits from the same entity graph —
+// this is what lets Google associate "K.K. Jha" and his credentials with
+// every page on the domain, calculators included.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  name: site.name,
+  alternateName: site.shortName,
+  description: site.subTagline,
+  url: siteUrl,
+  telephone: site.phone,
+  areaServed: "IN",
+  knowsLanguage: ["en", "hi"],
+  sameAs: [site.whatsappBase],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -48,6 +58,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <div className="grain" />
         {children}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </body>
     </html>
   );

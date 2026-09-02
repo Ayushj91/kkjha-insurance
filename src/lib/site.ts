@@ -1,3 +1,10 @@
+// Set NEXT_PUBLIC_SITE_URL once a custom domain is live, so shared links,
+// canonical tags and the sitemap all resolve to the real domain instead of
+// falling back to the Vercel-provided URL or localhost during development.
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 export const site = {
   name: "Kali Kant Jha",
   shortName: "K.K. Jha",
