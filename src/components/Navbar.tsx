@@ -5,23 +5,29 @@ import { Menu, X, MessageCircle, Shield } from "lucide-react";
 import { site, waLink } from "@/lib/site";
 
 const links = [
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
-  { href: "#credentials", label: "Credentials" },
-  { href: "#why-us", label: "Why Us" },
-  { href: "#faq", label: "FAQs" },
+  { href: "/#services", label: "Services" },
+  { href: "/#about", label: "About" },
+  { href: "/#credentials", label: "Credentials" },
+  { href: "/#why-us", label: "Why Us" },
+  { href: "/calculators", label: "Calculators" },
+  { href: "/#faq", label: "FAQs" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ solid = false }: { solid?: boolean }) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolledPast, setScrolledPast] = useState(false);
+  // `solid` forces the light/glass treatment on pages with no dark hero at
+  // the top (e.g. the calculators) — without it the logo/links would render
+  // white-on-white until the visitor scrolls.
+  const scrolled = solid || scrolledPast;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    if (solid) return;
+    const onScroll = () => setScrolledPast(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [solid]);
 
   return (
     <header
@@ -32,7 +38,7 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-        <a href="#top" className="flex items-center gap-2.5 group">
+        <a href="/#top" className="flex items-center gap-2.5 group">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-500 text-white shadow-md shadow-brand-600/25 transition-transform group-hover:scale-105">
             <Shield className="h-5 w-5" strokeWidth={2.2} />
           </span>

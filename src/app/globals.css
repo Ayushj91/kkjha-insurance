@@ -167,3 +167,41 @@ html {
   background: var(--color-brand-200);
   color: var(--color-ink-900);
 }
+
+/* Range slider used across the calculators — a plain brand-green thumb on
+   a soft track, kept simple and consistent cross-browser. */
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-brand-100);
+  outline: none;
+  cursor: pointer;
+}
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-brand-600);
+  cursor: pointer;
+  border: 3px solid var(--color-paper-card);
+  box-shadow: 0 0 0 1px var(--color-brand-600);
+}
+.calc-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-brand-600);
+  cursor: pointer;
+  border: 3px solid var(--color-paper-card);
+  box-shadow: 0 0 0 1px var(--color-brand-600);
+}
+.calc-range::-moz-range-track {
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-brand-100);
+}

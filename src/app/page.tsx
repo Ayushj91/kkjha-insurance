@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
 import About from "@/components/About";
 import Services from "@/components/Services";
+import CalculatorsTeaser from "@/components/CalculatorsTeaser";
 import Credentials from "@/components/Credentials";
 import BecomeAdvisor from "@/components/BecomeAdvisor";
 import WhyUs from "@/components/WhyUs";
@@ -20,6 +21,7 @@ export default function Home() {
         <TrustBar />
         <About />
         <Services />
+        <CalculatorsTeaser />
         <Credentials />
         <BecomeAdvisor />
         <WhyUs />
