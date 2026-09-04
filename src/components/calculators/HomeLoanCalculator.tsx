@@ -56,10 +56,29 @@ export default function HomeLoanCalculator() {
 
   const anyBoost = (extraOn && (extraMonthly > 0 || extraEmis > 0)) || (stepOn && stepPct > 0);
 
+  const inputsProps = {
+    mode, setMode,
+    principal, setPrincipal,
+    rate, setRate,
+    tenureYears, setTenureYears,
+    emiInput, setEmiInput,
+    extraOn, setExtraOn,
+    extraMonthly, setExtraMonthly,
+    extraEmis, setExtraEmis,
+    stepOn, setStepOn,
+    stepPct, setStepPct,
+    inflation, setInflation,
+    plan,
+  };
+
   if (!plan.feasible) {
     const need = Math.ceil((plan.minEmi + 500) / 500) * 500;
     return (
       <div className="flex flex-col gap-5">
+        {/* INPUTS — shown first so the natural flow on mobile is choose your
+            numbers, then scroll down to see what they produce. */}
+        <LoanInputs {...inputsProps} />
+
         <div className="rounded-2xl border border-clay-600/25 bg-clay-500/5 p-5">
           <div className="mb-2 text-[15px] font-bold text-clay-700">This EMI won&rsquo;t clear the loan</div>
           <p className="text-[13.5px] leading-relaxed text-ink-700/75">
@@ -77,20 +96,11 @@ export default function HomeLoanCalculator() {
             Set EMI to ₹{inr(need)}
           </button>
         </div>
-        <LoanInputs
-          mode={mode} setMode={setMode}
-          principal={principal} setPrincipal={setPrincipal}
-          rate={rate} setRate={setRate}
-          tenureYears={tenureYears} setTenureYears={setTenureYears}
-          emiInput={emiInput} setEmiInput={setEmiInput}
-          extraOn={extraOn} setExtraOn={setExtraOn}
-          extraMonthly={extraMonthly} setExtraMonthly={setExtraMonthly}
-          extraEmis={extraEmis} setExtraEmis={setExtraEmis}
-          stepOn={stepOn} setStepOn={setStepOn}
-          stepPct={stepPct} setStepPct={setStepPct}
-          inflation={inflation} setInflation={setInflation}
-          plan={plan}
-        />
+
+        <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">
+          Estimates assume a fixed rate and that extra EMIs land once a year. Real schedules vary with floating rates
+          — treat this as a planning guide.
+        </p>
       </div>
     );
   }
@@ -117,7 +127,12 @@ export default function HomeLoanCalculator() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* HERO */}
+      {/* INPUTS — shown first so the natural flow on mobile is choose your
+          numbers, then scroll down to see what they produce. */}
+      <LoanInputs {...inputsProps} />
+
+      {/* RESULTS — hero, chart, stats and the detailed breakdown, all below
+          the inputs that produce them. */}
       <div className="rounded-3xl border border-brand-900/10 bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-lg shadow-brand-900/15 sm:p-8">
         <div className="text-xs font-semibold uppercase tracking-widest text-brand-200">You&rsquo;ll be loan-free by</div>
         <div className="font-mono mt-2 text-4xl font-bold tracking-tight sm:text-5xl">{monthYear(payoff)}</div>
@@ -131,7 +146,6 @@ export default function HomeLoanCalculator() {
         </div>
       </div>
 
-      {/* CHART */}
       <Panel>
         <div className="mb-3 flex items-center justify-between gap-3">
           <span className="text-[13px] font-medium text-ink-700/60">Outstanding balance</span>
@@ -174,7 +188,6 @@ export default function HomeLoanCalculator() {
         />
       </Panel>
 
-      {/* STATS */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Monthly EMI" value={"₹" + inr(baseEmi)} />
         <Stat label="Interest you'll pay" value={"₹" + compact(plan.totalInterest)} />
@@ -201,7 +214,6 @@ export default function HomeLoanCalculator() {
         </div>
       )}
 
-      {/* DETAILED ANALYSIS */}
       <Panel title="Year-by-year breakdown">
         <div className="-mx-1 overflow-x-auto">
           <table className="w-full min-w-[560px] border-collapse text-[13px]">
@@ -231,20 +243,10 @@ export default function HomeLoanCalculator() {
         </div>
       </Panel>
 
-      <LoanInputs
-        mode={mode} setMode={setMode}
-        principal={principal} setPrincipal={setPrincipal}
-        rate={rate} setRate={setRate}
-        tenureYears={tenureYears} setTenureYears={setTenureYears}
-        emiInput={emiInput} setEmiInput={setEmiInput}
-        extraOn={extraOn} setExtraOn={setExtraOn}
-        extraMonthly={extraMonthly} setExtraMonthly={setExtraMonthly}
-        extraEmis={extraEmis} setExtraEmis={setExtraEmis}
-        stepOn={stepOn} setStepOn={setStepOn}
-        stepPct={stepPct} setStepPct={setStepPct}
-        inflation={inflation} setInflation={setInflation}
-        plan={plan}
-      />
+      <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">
+        Estimates assume a fixed rate and that extra EMIs land once a year. Real schedules vary with floating rates —
+        treat this as a planning guide.
+      </p>
     </div>
   );
 }
@@ -347,11 +349,6 @@ function LoanInputs(p: {
           </div>
         )}
       </Panel>
-
-      <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">
-        Estimates assume a fixed rate and that extra EMIs land once a year. Real schedules vary with floating rates —
-        treat this as a planning guide.
-      </p>
     </>
   );
 }

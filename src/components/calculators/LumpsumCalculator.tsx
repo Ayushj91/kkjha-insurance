@@ -18,7 +18,35 @@ export default function LumpsumCalculator() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* HERO */}
+      {/* INPUTS — shown first so the natural flow on mobile is choose your
+          numbers, then scroll down to see what they produce. */}
+      <Panel title="Your investment">
+        <Row label="Investment amount" money value={amount} onChange={setAmount} min={1000} max={100000000} step={5000} />
+        <Row
+          label="Expected annual return"
+          value={annualReturn}
+          onChange={setAnnualReturn}
+          min={1}
+          max={20}
+          step={0.5}
+          suffix="% p.a."
+          hint="Index funds have historically returned ~10–13% p.a. over long periods."
+        />
+        <Row label="Investment period" value={years} onChange={setYears} min={1} max={40} step={1} suffix="yrs" />
+        <Row
+          label="Expected inflation"
+          value={inflation}
+          onChange={setInflation}
+          min={0}
+          max={12}
+          step={0.5}
+          suffix="% p.a."
+          hint="Used to show your final value in today's purchasing power, alongside the nominal number"
+        />
+      </Panel>
+
+      {/* RESULTS — hero, chart, stats and the detailed breakdown, all below
+          the inputs that produce them. */}
       <div className="rounded-3xl border border-brand-900/10 bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-lg shadow-brand-900/15 sm:p-8">
         <div className="text-xs font-semibold uppercase tracking-widest text-brand-200">
           A one-time investment of ₹{compact(amount)} could grow to
@@ -37,7 +65,6 @@ export default function LumpsumCalculator() {
         </div>
       </div>
 
-      {/* CHART */}
       <Panel>
         <div className="mb-3 flex items-center justify-between gap-3">
           <span className="text-[13px] font-medium text-ink-700/60">Growth over time</span>
@@ -59,7 +86,6 @@ export default function LumpsumCalculator() {
         />
       </Panel>
 
-      {/* STATS */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Amount invested" value={"₹" + compact(res.invested)} />
         <Stat label="Wealth gained" value={"₹" + compact(res.gain)} accent="brand" />
@@ -71,7 +97,6 @@ export default function LumpsumCalculator() {
         />
       </div>
 
-      {/* DETAILED ANALYSIS */}
       <Panel title="Value at each milestone">
         <div className="-mx-1 overflow-x-auto">
           <table className="w-full min-w-[480px] border-collapse text-[13px]">
@@ -101,32 +126,6 @@ export default function LumpsumCalculator() {
             </tbody>
           </table>
         </div>
-      </Panel>
-
-      {/* INPUTS */}
-      <Panel title="Your investment">
-        <Row label="Investment amount" money value={amount} onChange={setAmount} min={1000} max={100000000} step={5000} />
-        <Row
-          label="Expected annual return"
-          value={annualReturn}
-          onChange={setAnnualReturn}
-          min={1}
-          max={20}
-          step={0.5}
-          suffix="% p.a."
-          hint="Index funds have historically returned ~10–13% p.a. over long periods."
-        />
-        <Row label="Investment period" value={years} onChange={setYears} min={1} max={40} step={1} suffix="yrs" />
-        <Row
-          label="Expected inflation"
-          value={inflation}
-          onChange={setInflation}
-          min={0}
-          max={12}
-          step={0.5}
-          suffix="% p.a."
-          hint="Used to show your final value in today's purchasing power, alongside the nominal number"
-        />
       </Panel>
 
       <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">

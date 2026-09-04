@@ -38,103 +38,8 @@ export default function SipCalculator() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* HERO */}
-      <div className="rounded-3xl border border-brand-900/10 bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-lg shadow-brand-900/15 sm:p-8">
-        <div className="text-xs font-semibold uppercase tracking-widest text-brand-200">
-          Your SIP could grow to
-        </div>
-        <div className="font-mono mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
-          ₹{compact(res.corpus)}
-        </div>
-        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-brand-100/90">
-          <span>after {durationLabel(res.months)} of investing</span>
-          <span className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold">
-            +{gainPct.toFixed(0)}% growth
-          </span>
-        </div>
-        <div className="mt-1 text-[13px] text-brand-100/70">
-          worth about <b className="font-mono font-semibold text-white">₹{compact(realCorpus)}</b> in today&rsquo;s money, after {inflation}% inflation
-        </div>
-      </div>
-
-      {/* CHART */}
-      <Panel>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <span className="text-[13px] font-medium text-ink-700/60">Invested vs. value over time</span>
-          <ChartLegend
-            items={[
-              { label: "Total value", color: "var(--color-brand-600)" },
-              { label: "Amount invested", color: "var(--color-gold-500)", dashed: true },
-            ]}
-          />
-        </div>
-        <TrendChart
-          xMax={res.months}
-          yMax={res.corpus}
-          xTick={(m) => (m === 0 ? "now" : `+${Math.round(m / 12)}y`)}
-          yTickLabel={"₹" + compact(res.corpus)}
-          series={[
-            {
-              points: res.points.map((p) => ({ x: p.m, y: p.value })),
-              color: "var(--color-brand-600)",
-              area: true,
-              dotAtEnd: true,
-            },
-            {
-              points: res.points.map((p) => ({ x: p.m, y: p.invested })),
-              color: "var(--color-gold-500)",
-              dashed: true,
-              dotAtEnd: true,
-            },
-          ]}
-        />
-      </Panel>
-
-      {/* STATS */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Amount invested" value={"₹" + compact(res.invested)} />
-        <Stat label="Wealth gained" value={"₹" + compact(res.gain)} accent="brand" />
-        <Stat label="Final corpus" value={"₹" + compact(res.corpus)} accent="brand" />
-        <Stat
-          label="From stepping up"
-          value={stepUpOn && stepUpGain > 0 ? "+₹" + compact(stepUpGain) : "—"}
-          accent="gold"
-        />
-      </div>
-
-      {/* DETAILED ANALYSIS */}
-      <Panel title="Year-by-year breakdown">
-        <div className="-mx-1 overflow-x-auto">
-          <table className="w-full min-w-[520px] border-collapse text-[13px]">
-            <thead>
-              <tr className="text-left text-ink-700/50">
-                <th className="px-3 py-2 font-medium">Year</th>
-                <th className="px-3 py-2 font-medium">Invested</th>
-                <th className="px-3 py-2 font-medium">Gain</th>
-                <th className="px-3 py-2 font-medium">Value</th>
-                <th className="px-3 py-2 font-medium">Value (today&rsquo;s money)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {res.yearly
-                .filter((_, i) => i % Math.max(1, Math.ceil(res.yearly.length / 10)) === 0 || i === res.yearly.length - 1)
-                .map((row) => (
-                  <tr key={row.year} className="border-t border-ink-900/6">
-                    <td className="px-3 py-2 font-semibold text-ink-900">Yr {row.year}</td>
-                    <td className="font-mono px-3 py-2 text-ink-700/70">₹{compact(row.invested)}</td>
-                    <td className="font-mono px-3 py-2 text-brand-700">₹{compact(row.gain)}</td>
-                    <td className="font-mono px-3 py-2 font-semibold text-ink-900">₹{compact(row.value)}</td>
-                    <td className="font-mono px-3 py-2 text-ink-700/60">
-                      ₹{compact(inflateBackward(row.value, row.year, inflation))}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      </Panel>
-
-      {/* INPUTS */}
+      {/* INPUTS — shown first so the natural flow on mobile is choose your
+          numbers, then scroll down to see what they produce. */}
       <Panel title="Your SIP">
         <Row
           label="Monthly investment"
@@ -199,6 +104,100 @@ export default function SipCalculator() {
             />
           </div>
         )}
+      </Panel>
+
+      {/* RESULTS — hero, chart, stats and the detailed breakdown, all below
+          the inputs that produce them. */}
+      <div className="rounded-3xl border border-brand-900/10 bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-lg shadow-brand-900/15 sm:p-8">
+        <div className="text-xs font-semibold uppercase tracking-widest text-brand-200">
+          Your SIP could grow to
+        </div>
+        <div className="font-mono mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
+          ₹{compact(res.corpus)}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-brand-100/90">
+          <span>after {durationLabel(res.months)} of investing</span>
+          <span className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold">
+            +{gainPct.toFixed(0)}% growth
+          </span>
+        </div>
+        <div className="mt-1 text-[13px] text-brand-100/70">
+          worth about <b className="font-mono font-semibold text-white">₹{compact(realCorpus)}</b> in today&rsquo;s money, after {inflation}% inflation
+        </div>
+      </div>
+
+      <Panel>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <span className="text-[13px] font-medium text-ink-700/60">Invested vs. value over time</span>
+          <ChartLegend
+            items={[
+              { label: "Total value", color: "var(--color-brand-600)" },
+              { label: "Amount invested", color: "var(--color-gold-500)", dashed: true },
+            ]}
+          />
+        </div>
+        <TrendChart
+          xMax={res.months}
+          yMax={res.corpus}
+          xTick={(m) => (m === 0 ? "now" : `+${Math.round(m / 12)}y`)}
+          yTickLabel={"₹" + compact(res.corpus)}
+          series={[
+            {
+              points: res.points.map((p) => ({ x: p.m, y: p.value })),
+              color: "var(--color-brand-600)",
+              area: true,
+              dotAtEnd: true,
+            },
+            {
+              points: res.points.map((p) => ({ x: p.m, y: p.invested })),
+              color: "var(--color-gold-500)",
+              dashed: true,
+              dotAtEnd: true,
+            },
+          ]}
+        />
+      </Panel>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Stat label="Amount invested" value={"₹" + compact(res.invested)} />
+        <Stat label="Wealth gained" value={"₹" + compact(res.gain)} accent="brand" />
+        <Stat label="Final corpus" value={"₹" + compact(res.corpus)} accent="brand" />
+        <Stat
+          label="From stepping up"
+          value={stepUpOn && stepUpGain > 0 ? "+₹" + compact(stepUpGain) : "—"}
+          accent="gold"
+        />
+      </div>
+
+      <Panel title="Year-by-year breakdown">
+        <div className="-mx-1 overflow-x-auto">
+          <table className="w-full min-w-[520px] border-collapse text-[13px]">
+            <thead>
+              <tr className="text-left text-ink-700/50">
+                <th className="px-3 py-2 font-medium">Year</th>
+                <th className="px-3 py-2 font-medium">Invested</th>
+                <th className="px-3 py-2 font-medium">Gain</th>
+                <th className="px-3 py-2 font-medium">Value</th>
+                <th className="px-3 py-2 font-medium">Value (today&rsquo;s money)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {res.yearly
+                .filter((_, i) => i % Math.max(1, Math.ceil(res.yearly.length / 10)) === 0 || i === res.yearly.length - 1)
+                .map((row) => (
+                  <tr key={row.year} className="border-t border-ink-900/6">
+                    <td className="px-3 py-2 font-semibold text-ink-900">Yr {row.year}</td>
+                    <td className="font-mono px-3 py-2 text-ink-700/70">₹{compact(row.invested)}</td>
+                    <td className="font-mono px-3 py-2 text-brand-700">₹{compact(row.gain)}</td>
+                    <td className="font-mono px-3 py-2 font-semibold text-ink-900">₹{compact(row.value)}</td>
+                    <td className="font-mono px-3 py-2 text-ink-700/60">
+                      ₹{compact(inflateBackward(row.value, row.year, inflation))}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </Panel>
 
       <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">

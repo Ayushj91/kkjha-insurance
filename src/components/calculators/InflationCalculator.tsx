@@ -21,6 +21,8 @@ export default function InflationCalculator() {
 
   return (
     <div className="flex flex-col gap-5">
+      {/* PRESETS + INPUTS — shown first so the natural flow on mobile is
+          choose your numbers, then scroll down to see what they produce. */}
       <div className="flex flex-wrap gap-2">
         {presets.map((p) => (
           <Chip key={p.label} onClick={() => setAmount(p.amount)}>
@@ -29,7 +31,23 @@ export default function InflationCalculator() {
         ))}
       </div>
 
-      {/* HERO — two-sided */}
+      <Panel title="Your numbers">
+        <Row label="Amount / cost today" money value={amount} onChange={setAmount} min={1000} max={100000000} step={1000} />
+        <Row label="Time horizon" value={years} onChange={setYears} min={1} max={40} step={1} suffix="yrs" />
+        <Row
+          label="Expected inflation"
+          value={inflation}
+          onChange={setInflation}
+          min={0}
+          max={15}
+          step={0.5}
+          suffix="% p.a."
+          hint="India's long-term consumer inflation has averaged roughly 5–7%."
+        />
+      </Panel>
+
+      {/* RESULTS — hero, chart, stats and the detailed breakdown, all below
+          the inputs that produce them. */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-3xl border border-clay-600/15 bg-gradient-to-br from-clay-500 to-clay-600 p-6 text-white shadow-lg shadow-clay-600/15">
           <div className="text-xs font-semibold uppercase tracking-widest text-white/70">
@@ -53,7 +71,6 @@ export default function InflationCalculator() {
         </div>
       </div>
 
-      {/* CHART */}
       <Panel>
         <div className="mb-3 flex items-center justify-between gap-3">
           <span className="text-[13px] font-medium text-ink-700/60">What ₹{compact(amount)} can still buy</span>
@@ -75,7 +92,6 @@ export default function InflationCalculator() {
         />
       </Panel>
 
-      {/* STATS */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Today's cost" value={"₹" + compact(amount)} />
         <Stat label={`Cost in ${years}y`} value={"₹" + compact(res.futureAmount)} accent="clay" />
@@ -83,7 +99,6 @@ export default function InflationCalculator() {
         <Stat label="Extra needed to keep up" value={"₹" + compact(res.futureAmount - amount)} accent="brand" />
       </div>
 
-      {/* DETAILED ANALYSIS */}
       <Panel title="Year-by-year erosion">
         <div className="-mx-1 overflow-x-auto">
           <table className="w-full min-w-[380px] border-collapse text-[13px]">
@@ -109,22 +124,6 @@ export default function InflationCalculator() {
             </tbody>
           </table>
         </div>
-      </Panel>
-
-      {/* INPUTS */}
-      <Panel title="Your numbers">
-        <Row label="Amount / cost today" money value={amount} onChange={setAmount} min={1000} max={100000000} step={1000} />
-        <Row label="Time horizon" value={years} onChange={setYears} min={1} max={40} step={1} suffix="yrs" />
-        <Row
-          label="Expected inflation"
-          value={inflation}
-          onChange={setInflation}
-          min={0}
-          max={15}
-          step={0.5}
-          suffix="% p.a."
-          hint="India's long-term consumer inflation has averaged roughly 5–7%."
-        />
       </Panel>
 
       <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">

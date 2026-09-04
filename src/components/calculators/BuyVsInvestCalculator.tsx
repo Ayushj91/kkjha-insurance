@@ -34,114 +34,8 @@ export default function BuyVsInvestCalculator() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* HERO — verdict */}
-      <div className="rounded-3xl border border-ink-900/8 bg-white p-6 shadow-sm shadow-ink-900/5 sm:p-8">
-        <div className="mb-4 text-[13px] font-medium text-ink-700/60">After {years} years, you&rsquo;d have</div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div
-            className={`rounded-2xl border p-4 transition-shadow ${
-              !sipWins ? "border-gold-500 shadow-md shadow-gold-500/15" : "border-ink-900/8"
-            } bg-gold-400/5`}
-          >
-            <div className="text-xs font-medium text-ink-700/55">Home equity</div>
-            <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-gold-600 sm:text-3xl">
-              ₹{compact(res.homeFinal)}
-            </div>
-            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
-              ≈ ₹{compact(realHomeFinal)} today&rsquo;s money
-            </div>
-          </div>
-          <div
-            className={`rounded-2xl border p-4 transition-shadow ${
-              sipWins ? "border-brand-500 shadow-md shadow-brand-500/15" : "border-ink-900/8"
-            } bg-brand-50/50`}
-          >
-            <div className="text-xs font-medium text-ink-700/55">SIP corpus</div>
-            <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-brand-700 sm:text-3xl">
-              ₹{compact(res.sipFinal)}
-            </div>
-            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
-              ≈ ₹{compact(realSipFinal)} today&rsquo;s money
-            </div>
-          </div>
-        </div>
-        <div className="mt-4 text-[13.5px] text-ink-700/70">
-          {sipWins ? "Investing" : "Buying"} comes out ahead by{" "}
-          <b className={"font-mono font-semibold " + (sipWins ? "text-brand-700" : "text-gold-600")}>
-            ₹{compact(gap)}
-          </b>
-        </div>
-      </div>
-
-      {/* CHART */}
-      <Panel>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <span className="text-[13px] font-medium text-ink-700/60">Net worth over time</span>
-          <ChartLegend
-            items={[
-              { label: "Home", color: "var(--color-gold-500)" },
-              { label: "SIP", color: "var(--color-brand-600)" },
-            ]}
-          />
-        </div>
-        <TrendChart
-          xMax={res.months}
-          yMax={Math.max(res.homeFinal, res.sipFinal) * 1.05}
-          xTick={(m) => (m === 0 ? "now" : `+${Math.round(m / 12)}y`)}
-          yTickLabel={"₹" + compact(Math.max(res.homeFinal, res.sipFinal))}
-          markers={
-            res.crossover
-              ? [
-                  {
-                    x: res.crossover,
-                    y: res.home[res.crossover]?.value ?? 0,
-                    color: "var(--color-ink-700)",
-                    label: `cross at yr ${Math.round(res.crossover / 12)}`,
-                    dropLine: true,
-                  },
-                ]
-              : []
-          }
-          series={[
-            {
-              points: res.home.map((p) => ({ x: p.m, y: p.value })),
-              color: "var(--color-gold-500)",
-              dotAtEnd: true,
-            },
-            {
-              points: res.sip.map((p) => ({ x: p.m, y: p.value })),
-              color: "var(--color-brand-600)",
-              area: true,
-              dotAtEnd: true,
-            },
-          ]}
-        />
-      </Panel>
-
-      {/* STATS */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Your EMI" value={"₹" + inr(res.emi)} />
-        <Stat label={accountRent ? "Invested/mo (start)" : "SIP amount/mo"} value={"₹" + inr(res.monthlySip)} />
-        <Stat
-          label={res.crossover ? "Lines cross at" : sipWins ? "SIP leads" : "Home leads"}
-          value={res.crossover ? `Yr ${Math.round(res.crossover / 12)}` : "throughout"}
-        />
-        <Stat label="Home's market value" value={"₹" + compact(res.homeValueFinal)} accent="gold" />
-      </div>
-
-      <div className="rounded-2xl border border-ink-900/8 bg-brand-50/50 px-4 py-3.5 text-[13px] leading-relaxed text-ink-700/75">
-        The home is worth <b className="font-mono font-semibold text-ink-900">₹{compact(res.homeValueFinal)}</b> by
-        then, loan cleared.
-        {accountRent && (
-          <>
-            {" "}
-            Over {years} years you&rsquo;d pay <b className="font-mono font-semibold text-ink-900">₹{compact(res.totalRent)}</b> in
-            rent while investing the rest.
-          </>
-        )}
-      </div>
-
-      {/* INPUTS */}
+      {/* INPUTS — shown first so the natural flow on mobile is choose your
+          numbers, then scroll down to see what they produce. */}
       <Panel title="The home">
         <Row label="Home price" money value={homePrice} onChange={setHomePrice} min={1000000} max={100000000} step={100000} />
         <Row
@@ -204,6 +98,112 @@ export default function BuyVsInvestCalculator() {
           </div>
         )}
       </Panel>
+
+      {/* RESULTS — the verdict, chart, stats and inflation note, all below
+          the inputs that produce them. */}
+      <div className="rounded-3xl border border-ink-900/8 bg-white p-6 shadow-sm shadow-ink-900/5 sm:p-8">
+        <div className="mb-4 text-[13px] font-medium text-ink-700/60">After {years} years, you&rsquo;d have</div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div
+            className={`rounded-2xl border p-4 transition-shadow ${
+              !sipWins ? "border-gold-500 shadow-md shadow-gold-500/15" : "border-ink-900/8"
+            } bg-gold-400/5`}
+          >
+            <div className="text-xs font-medium text-ink-700/55">Home equity</div>
+            <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-gold-600 sm:text-3xl">
+              ₹{compact(res.homeFinal)}
+            </div>
+            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
+              ≈ ₹{compact(realHomeFinal)} today&rsquo;s money
+            </div>
+          </div>
+          <div
+            className={`rounded-2xl border p-4 transition-shadow ${
+              sipWins ? "border-brand-500 shadow-md shadow-brand-500/15" : "border-ink-900/8"
+            } bg-brand-50/50`}
+          >
+            <div className="text-xs font-medium text-ink-700/55">SIP corpus</div>
+            <div className="font-mono mt-2 text-2xl font-bold tracking-tight text-brand-700 sm:text-3xl">
+              ₹{compact(res.sipFinal)}
+            </div>
+            <div className="font-mono mt-1 text-[11.5px] text-ink-700/50">
+              ≈ ₹{compact(realSipFinal)} today&rsquo;s money
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 text-[13.5px] text-ink-700/70">
+          {sipWins ? "Investing" : "Buying"} comes out ahead by{" "}
+          <b className={"font-mono font-semibold " + (sipWins ? "text-brand-700" : "text-gold-600")}>
+            ₹{compact(gap)}
+          </b>
+        </div>
+      </div>
+
+      <Panel>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <span className="text-[13px] font-medium text-ink-700/60">Net worth over time</span>
+          <ChartLegend
+            items={[
+              { label: "Home", color: "var(--color-gold-500)" },
+              { label: "SIP", color: "var(--color-brand-600)" },
+            ]}
+          />
+        </div>
+        <TrendChart
+          xMax={res.months}
+          yMax={Math.max(res.homeFinal, res.sipFinal) * 1.05}
+          xTick={(m) => (m === 0 ? "now" : `+${Math.round(m / 12)}y`)}
+          yTickLabel={"₹" + compact(Math.max(res.homeFinal, res.sipFinal))}
+          markers={
+            res.crossover
+              ? [
+                  {
+                    x: res.crossover,
+                    y: res.home[res.crossover]?.value ?? 0,
+                    color: "var(--color-ink-700)",
+                    label: `cross at yr ${Math.round(res.crossover / 12)}`,
+                    dropLine: true,
+                  },
+                ]
+              : []
+          }
+          series={[
+            {
+              points: res.home.map((p) => ({ x: p.m, y: p.value })),
+              color: "var(--color-gold-500)",
+              dotAtEnd: true,
+            },
+            {
+              points: res.sip.map((p) => ({ x: p.m, y: p.value })),
+              color: "var(--color-brand-600)",
+              area: true,
+              dotAtEnd: true,
+            },
+          ]}
+        />
+      </Panel>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Stat label="Your EMI" value={"₹" + inr(res.emi)} />
+        <Stat label={accountRent ? "Invested/mo (start)" : "SIP amount/mo"} value={"₹" + inr(res.monthlySip)} />
+        <Stat
+          label={res.crossover ? "Lines cross at" : sipWins ? "SIP leads" : "Home leads"}
+          value={res.crossover ? `Yr ${Math.round(res.crossover / 12)}` : "throughout"}
+        />
+        <Stat label="Home's market value" value={"₹" + compact(res.homeValueFinal)} accent="gold" />
+      </div>
+
+      <div className="rounded-2xl border border-ink-900/8 bg-brand-50/50 px-4 py-3.5 text-[13px] leading-relaxed text-ink-700/75">
+        The home is worth <b className="font-mono font-semibold text-ink-900">₹{compact(res.homeValueFinal)}</b> by
+        then, loan cleared.
+        {accountRent && (
+          <>
+            {" "}
+            Over {years} years you&rsquo;d pay <b className="font-mono font-semibold text-ink-900">₹{compact(res.totalRent)}</b> in
+            rent while investing the rest.
+          </>
+        )}
+      </div>
 
       <p className="px-1 text-[11.5px] leading-relaxed text-ink-700/50">
         Both paths start from the same money (your down payment) and the same monthly outflow, so it&rsquo;s a
